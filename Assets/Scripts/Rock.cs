@@ -17,6 +17,6 @@ public class Rock : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position += new Vector3() * Time.deltaTime;
+        
     }
 }
