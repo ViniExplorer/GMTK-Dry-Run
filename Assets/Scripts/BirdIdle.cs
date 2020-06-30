@@ -24,6 +24,8 @@ public class BirdIdle : MonoBehaviour
 
             StartCoroutine(MoveTools.SmoothMovement(gameObject, newPos, 0f, 5f));
 
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+
             yield return new WaitForSeconds(1f);
         }
     }

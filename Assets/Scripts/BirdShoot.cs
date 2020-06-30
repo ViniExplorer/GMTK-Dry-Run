@@ -2,83 +2,82 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.XR;
 
 public class BirdShoot : MonoBehaviour
 {
-    public float shootForce;
+    public float ballPower;
     public Rigidbody2D rb2D;
-    private BirdIdle bird;
-    public float speed;
-    bool alreadyShooting = false;
-    bool done = true;
-    bool notShoot = true;
-    
+
+    public Vector2 minimumpower;
+    public Vector2 maximumpower;
+    public LineRenderer line;
+    Camera camera;
+    Vector2 ballforce;
+    Vector3 startpoint;
+    Vector3 endpoint;
+
+    private void Awake()
+    {
+        line = GetComponent<LineRenderer>();
+    }
 
     private void Start()
     {
-        bird = GetComponent<BirdIdle>();
-    }
-
-    public void StartDragShoot()
-    {
-        bird.idle = false;
-        StartCoroutine(DragShoot());
-    }
-
-    IEnumerator DragShoot()
-    {
-        while (notShoot) {
-            var lookDir = Input.mousePosition - transform.position;
-
-            float dir = Mathf.Atan2(lookDir.x, lookDir.y) * Mathf.Rad2Deg -270f;
-
-            rb2D.rotation = dir;
-
-            yield return null;
-        }
-    }
-    
-    IEnumerator ShootTimer(float secs)
-    {
-        float sec = 0f;
-        while (sec <= secs)
-        {
-            sec += 1;
-            yield return new WaitForSeconds(1f);
-        }
-        bird.idle = true;
-        done = true;
-        alreadyShooting = false;
-        notShoot = true;
-        bird.StartCoroutine(bird.MoveAround());
+        camera = Camera.main;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonUp(0) && bird.idle == false)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (alreadyShooting == false)
-            {
-                alreadyShooting = true;
-                notShoot = false;
-                print("hihiiihihi");
-                StopAllCoroutines();
-                StartCoroutine(ShootTimer(3f));
-                rb2D.AddForce(transform.right * shootForce, ForceMode2D.Impulse);
-            }
+            GetComponent<BirdIdle>().StopAllCoroutines();
+            GetComponent<BirdIdle>().idle = false;
+            rb2D.velocity = Vector3.zero;
+            
+            startpoint = camera.ScreenToWorldPoint(Input.mousePosition);
+            startpoint.z = 15f;
+        }
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 currentpoint = camera.ScreenToWorldPoint(Input.mousePosition);
+            currentpoint.z = 15f;
+            DrawLine(startpoint, currentpoint);
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            endpoint = camera.ScreenToWorldPoint(Input.mousePosition);
+            endpoint.z = 15;
+
+            ballforce = new Vector2(Mathf.Clamp(startpoint.x - endpoint.x, minimumpower.x, maximumpower.x), Mathf.Clamp(startpoint.y - endpoint.y, minimumpower.y, maximumpower.y));
+            float rotation = Mathf.Atan2(ballforce.x, ballforce.y) * Mathf.Rad2Deg - 180f;
+            rb2D.rotation = rotation;
+            rb2D.AddForce(ballforce * ballPower, ForceMode2D.Impulse);
+            EndLine();
+            StartCoroutine(StopBird());
         }
     }
 
-    
-    private void OnMouseOver()
+    IEnumerator StopBird()
     {
-        print("Hey there!");
-        if (Input.GetMouseButtonDown(0) && done == true)
-        {
-            print("damn");
-            done = false;
-            StartDragShoot();
-        }
+        yield return new WaitForSeconds(1f);
+        rb2D.rotation = 0;
+        rb2D.velocity = Vector3.zero;
+        GetComponent<BirdIdle>().idle = true;
+        GetComponent<BirdIdle>().StartCoroutine(GetComponent<BirdIdle>().MoveAround());
     }
-    
+
+    void DrawLine(Vector2 startpos, Vector2 endpos)
+    {
+        line.positionCount = 2;
+        Vector3[] allPoints = new Vector3[2];
+        allPoints[0] = startpos;
+        allPoints[1] = endpos;
+        line.SetPositions(allPoints);
+    }
+
+    void EndLine()
+    {
+        line.positionCount = 0;
+    }
 }
