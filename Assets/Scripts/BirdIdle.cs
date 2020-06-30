@@ -12,12 +12,7 @@ public class BirdIdle : MonoBehaviour
         StartCoroutine(MoveAround());
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
-    }
-
+ 
     IEnumerator MoveAround()
     {
         while (idle)
