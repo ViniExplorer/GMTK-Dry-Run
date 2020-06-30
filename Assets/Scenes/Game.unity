@@ -302,7 +302,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 539389584}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.32124057, y: 0.3845588, z: 0}
+  m_LocalPosition: {x: -5.12, y: 0.5, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -477,6 +477,7 @@ GameObject:
   - component: {fileID: 1317261089}
   - component: {fileID: 1317261092}
   - component: {fileID: 1317261093}
+  - component: {fileID: 1317261094}
   m_Layer: 0
   m_Name: Bobby
   m_TagString: Untagged
@@ -617,6 +618,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idle: 1
+--- !u!114 &1317261094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317261088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d79a73ae341b6c45b1f728235743176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootForce: 20
+  rb2D: {fileID: 1317261089}
+  speed: 5
 --- !u!1 &1631464294
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,6 +817,7 @@ GameObject:
   - component: {fileID: 1711577872}
   - component: {fileID: 1711577871}
   - component: {fileID: 1711577875}
+  - component: {fileID: 1711577876}
   m_Layer: 0
   m_Name: Dolly
   m_TagString: Untagged
@@ -941,3 +958,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idle: 1
+--- !u!114 &1711577876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711577870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d79a73ae341b6c45b1f728235743176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootForce: 20
+  rb2D: {fileID: 1711577872}
+  speed: 5

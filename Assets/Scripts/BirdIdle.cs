@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BirdIdle : MonoBehaviour
 {
-    public bool idle;
+    public bool idle = true;
 
     // Start is called before the first frame update
     void Start()
@@ -13,7 +13,7 @@ public class BirdIdle : MonoBehaviour
     }
 
  
-    IEnumerator MoveAround()
+    public IEnumerator MoveAround()
     {
         while (idle)
         {
