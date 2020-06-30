@@ -24,10 +24,12 @@ public class Rock : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Barrier")
+        rb2D.rotation += 90f;
+        dir = transform.up;
+        if (collision.gameObject.tag == "Bird")
         {
-            rb2D.rotation += 90f;
-            dir = transform.up;
+            if (collision.gameObject.GetComponent<BirdIdle>().idle == false)
+                GetComponent<HP>().hp -= 10f;
         }
     }
 }

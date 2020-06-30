@@ -45,6 +45,9 @@ public class BirdShoot : MonoBehaviour
             }
             if (Input.GetMouseButton(0))
             {
+                GetComponent<BirdIdle>().StopAllCoroutines();
+                GetComponent<BirdIdle>().idle = false;
+                rb2D.velocity = Vector3.zero;
                 Vector3 currentpoint = camera.ScreenToWorldPoint(Input.mousePosition);
                 currentpoint.z = 15f;
                 DrawLine(startpoint, currentpoint);
@@ -55,7 +58,7 @@ public class BirdShoot : MonoBehaviour
                 endpoint.z = 15;
             
                 ballforce = new Vector2(Mathf.Clamp(startpoint.x - endpoint.x, minimumpower.x, maximumpower.x), Mathf.Clamp(startpoint.y - endpoint.y, minimumpower.y, maximumpower.y));
-                float rotation = Mathf.Atan2(ballforce.x, ballforce.y) * Mathf.Rad2Deg - 180f;
+                float rotation = Mathf.Atan2(ballforce.x, ballforce.y) * Mathf.Rad2Deg + 270f;
                 rb2D.rotation = rotation;
                 rb2D.AddForce(ballforce * ballPower, ForceMode2D.Impulse);
                 EndLine();
