@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.XR;
 
 public class BirdShoot : MonoBehaviour
 {
@@ -17,6 +16,9 @@ public class BirdShoot : MonoBehaviour
     Vector3 startpoint;
     Vector3 endpoint;
 
+    GameManager manager;
+    public GameManager.Birds type;
+
     private void Awake()
     {
         line = GetComponent<LineRenderer>();
@@ -24,38 +26,43 @@ public class BirdShoot : MonoBehaviour
 
     private void Start()
     {
+        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         camera = Camera.main;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (manager.activeBird == type)
         {
-            GetComponent<BirdIdle>().StopAllCoroutines();
-            GetComponent<BirdIdle>().idle = false;
-            rb2D.velocity = Vector3.zero;
+            if (Input.GetMouseButtonDown(0))
+            {
+                GetComponent<BirdIdle>().StopAllCoroutines();
+                GetComponent<BirdIdle>().idle = false;
+                rb2D.velocity = Vector3.zero;
+                
+                startpoint = camera.ScreenToWorldPoint(Input.mousePosition);
+                startpoint.z = 15f;
+            }
+            if (Input.GetMouseButton(0))
+            {
+                Vector3 currentpoint = camera.ScreenToWorldPoint(Input.mousePosition);
+                currentpoint.z = 15f;
+                DrawLine(startpoint, currentpoint);
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                endpoint = camera.ScreenToWorldPoint(Input.mousePosition);
+                endpoint.z = 15;
             
-            startpoint = camera.ScreenToWorldPoint(Input.mousePosition);
-            startpoint.z = 15f;
+                ballforce = new Vector2(Mathf.Clamp(startpoint.x - endpoint.x, minimumpower.x, maximumpower.x), Mathf.Clamp(startpoint.y - endpoint.y, minimumpower.y, maximumpower.y));
+                float rotation = Mathf.Atan2(ballforce.x, ballforce.y) * Mathf.Rad2Deg - 180f;
+                rb2D.rotation = rotation;
+                rb2D.AddForce(ballforce * ballPower, ForceMode2D.Impulse);
+                EndLine();
+                StartCoroutine(StopBird());
+            }
         }
-        if (Input.GetMouseButton(0))
-        {
-            Vector3 currentpoint = camera.ScreenToWorldPoint(Input.mousePosition);
-            currentpoint.z = 15f;
-            DrawLine(startpoint, currentpoint);
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            endpoint = camera.ScreenToWorldPoint(Input.mousePosition);
-            endpoint.z = 15;
-
-            ballforce = new Vector2(Mathf.Clamp(startpoint.x - endpoint.x, minimumpower.x, maximumpower.x), Mathf.Clamp(startpoint.y - endpoint.y, minimumpower.y, maximumpower.y));
-            float rotation = Mathf.Atan2(ballforce.x, ballforce.y) * Mathf.Rad2Deg - 180f;
-            rb2D.rotation = rotation;
-            rb2D.AddForce(ballforce * ballPower, ForceMode2D.Impulse);
-            EndLine();
-            StartCoroutine(StopBird());
-        }
+        
     }
 
     IEnumerator StopBird()
