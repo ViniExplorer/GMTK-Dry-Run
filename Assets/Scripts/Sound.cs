@@ -12,7 +12,7 @@ public class Sound
     public AudioSource source;
     
     [Range(0f, 1f)]
-    public float volume;
+    public float volume = PlayerPrefs.GetFloat("hi");
 
     [Range(0.1f, 3f)]
     public float pitch;

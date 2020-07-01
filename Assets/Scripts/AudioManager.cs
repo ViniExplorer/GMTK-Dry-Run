@@ -8,6 +8,11 @@ public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
 
+    private void Start()
+    {
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("Music");
+    }
+
     private void Awake()
     {
         foreach(Sound s in sounds)
