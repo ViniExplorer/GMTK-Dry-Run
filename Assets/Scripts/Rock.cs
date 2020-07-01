@@ -15,6 +15,8 @@ public class Rock : MonoBehaviour
     {
         rb2D = GetComponent<Rigidbody2D>();
         health = GetComponent<HP>();
+        health.hp = PlayerPrefs.GetInt("Level") * 100f;
+        health.maxHP = PlayerPrefs.GetInt("Level") * 100f;
         float rotation = Random.Range(0f, 360f);
         rb2D.rotation = rotation;
         dir = transform.up;
@@ -44,7 +46,15 @@ public class Rock : MonoBehaviour
         if (collision.gameObject.tag == "Bird")
         {
             if (collision.gameObject.GetComponent<BirdIdle>().idle == false)
+            {
+                if(GetComponent<HP>().hp - 10f <= 0f)
+                {
+                    FindObjectOfType<AudioManager>().Play("RockDeath");
+                    GetComponent<HP>().hp -= 10f;
+                }
+                FindObjectOfType<AudioManager>().Play("RockDmg");
                 GetComponent<HP>().hp -= 10f;
+            }
         }
     }
 }

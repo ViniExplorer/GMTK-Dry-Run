@@ -22,6 +22,11 @@ public class BirdIdle : MonoBehaviour
 
             Vector2 newPos = new Vector2(randX, randY);
 
+            if (randX < transform.position.x)
+                transform.localScale = new Vector3(-4f, 4f, 1f);
+            else
+                transform.localScale = new Vector3(4f, 4f, 1f);
+
             StartCoroutine(MoveTools.SmoothMovement(gameObject, newPos, 0f, 5f));
 
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;
