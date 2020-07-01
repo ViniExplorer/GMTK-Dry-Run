@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     int numOfEnemies;
     int num = 0;
 
+    bool paused = false;
+
     public Transform[] birds;
     public GameObject[] enemies;
 
@@ -41,6 +43,21 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!paused)
+            {
+                paused = true;
+                Time.timeScale = 0f;
+                transform.GetChild(0).gameObject.SetActive(true);
+            }
+            else
+            {
+                paused = false;
+                Time.timeScale = 1f;
+                transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
         if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (activeBird == Birds.Bobby)

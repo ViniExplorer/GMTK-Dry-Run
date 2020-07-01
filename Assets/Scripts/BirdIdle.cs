@@ -6,6 +6,7 @@ public class BirdIdle : MonoBehaviour
 {
     public bool idle = true;
 
+
     public void FlapSound()
     {
         FindObjectOfType<AudioManager>().Play("BirdFlap");
@@ -15,6 +16,9 @@ public class BirdIdle : MonoBehaviour
     void Start()
     {
         StartCoroutine(MoveAround());
+        var health = GetComponent<HP>();
+        health.hp = PlayerPrefs.GetInt("Level") * 50f;
+        health.maxHP = PlayerPrefs.GetInt("Level") * 50f;
     }
 
  

@@ -10,6 +10,7 @@ public class Rock : MonoBehaviour
     Vector3 dir;
     public List<Sprite> sprites;
     HP health;
+    public GameObject explosion;
 
     private void Start()
     {
@@ -49,6 +50,7 @@ public class Rock : MonoBehaviour
             {
                 if(GetComponent<HP>().hp - 10f <= 0f)
                 {
+                    Instantiate(explosion, transform.position, Quaternion.identity);
                     FindObjectOfType<AudioManager>().Play("RockDeath");
                     GetComponent<HP>().hp -= 10f;
                 }
