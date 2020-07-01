@@ -60,6 +60,7 @@ public class BirdShoot : MonoBehaviour
                 ballforce = new Vector2(Mathf.Clamp(startpoint.x - endpoint.x, minimumpower.x, maximumpower.x), Mathf.Clamp(startpoint.y - endpoint.y, minimumpower.y, maximumpower.y));
                 float rotation = Mathf.Atan2(ballforce.x, ballforce.y) * Mathf.Rad2Deg + 270f;
                 rb2D.rotation = rotation;
+                GetComponent<Animator>().SetBool("shooting", true);
                 rb2D.AddForce(ballforce * ballPower, ForceMode2D.Impulse);
                 EndLine();
                 StartCoroutine(StopBird());
@@ -73,6 +74,7 @@ public class BirdShoot : MonoBehaviour
         yield return new WaitForSeconds(1f);
         rb2D.rotation = 0;
         rb2D.velocity = Vector3.zero;
+        GetComponent<Animator>().SetBool("shooting", false);
         GetComponent<BirdIdle>().idle = true;
         GetComponent<BirdIdle>().StartCoroutine(GetComponent<BirdIdle>().MoveAround());
     }

@@ -45,15 +45,15 @@ public class GameManager : MonoBehaviour
         {
             if (activeBird == Birds.Bobby)
             {
-                bobby.transform.GetChild(0).gameObject.SetActive(false);
+                bobby.GetComponent<Animator>().SetBool("active", false);
                 activeBird = Birds.Dolly;
-                dolly.transform.GetChild(0).gameObject.SetActive(true);
+                dolly.GetComponent<Animator>().SetBool("active", true);
             }
             else
             {
-                dolly.transform.GetChild(0).gameObject.SetActive(false);
+                dolly.GetComponent<Animator>().SetBool("active", false);
                 activeBird = Birds.Bobby;
-                bobby.transform.GetChild(0).gameObject.SetActive(true);
+                bobby.GetComponent<Animator>().SetBool("active", true);
             }
         }
         if(GameObject.Find("Rock") == null)

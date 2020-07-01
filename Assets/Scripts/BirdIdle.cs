@@ -6,6 +6,11 @@ public class BirdIdle : MonoBehaviour
 {
     public bool idle = true;
 
+    public void FlapSound()
+    {
+        FindObjectOfType<AudioManager>().Play("BirdFlap");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
