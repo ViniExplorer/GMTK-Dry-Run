@@ -17,8 +17,8 @@ public class BirdIdle : MonoBehaviour
     {
         while (idle)
         {
-            float randX = Random.Range(-1.78f, 1.78f);
-            float randY = Random.Range(-1f, 1f);
+            float randX = Random.Range(-8f, 8f);
+            float randY = Random.Range(-4f, 4f);
 
             Vector2 newPos = new Vector2(randX, randY);
 
