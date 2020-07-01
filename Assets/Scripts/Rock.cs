@@ -56,6 +56,7 @@ public class Rock : MonoBehaviour
                 }
                 FindObjectOfType<AudioManager>().Play("RockDmg");
                 GetComponent<HP>().hp -= 10f;
+                speed += 0.5f;
             }
         }
     }

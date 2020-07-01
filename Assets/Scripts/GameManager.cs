@@ -58,6 +58,10 @@ public class GameManager : MonoBehaviour
                 transform.GetChild(0).gameObject.SetActive(false);
             }
         }
+        if (GameObject.FindGameObjectsWithTag("Bird").Length == 0)
+        {
+            transform.GetChild(1).gameObject.SetActive(true);
+        }
         if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (activeBird == Birds.Bobby)
